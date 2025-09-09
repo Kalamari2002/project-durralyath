@@ -47,6 +47,10 @@ public:
 	*/
 	bool isHovering(float cursor_xPos, float cursor_yPos);
 	
+	/**
+	* Takes in a window pointer and draws all associated drawable objects with this element.
+	* @param *window: pointer to the main RenderWindow object
+	*/
 	void draw(sf::RenderWindow *window);
 
 	/**

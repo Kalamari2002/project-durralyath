@@ -1,5 +1,4 @@
 #pragma once
-#include "Entity.h"
 #include "BoardElement.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -13,13 +12,18 @@ const int windowHeight = 900;
 sf::Color defaultFillColor(168,135,30);
 
 int main() {
-	sf::RenderWindow window(sf::VideoMode({ windowWidth,windowHeight }), "Its Alive!");
-	sf::CircleShape shape(100.f);
+	sf::RenderWindow window(sf::VideoMode({ windowWidth,windowHeight }), "Durralyath");
+
+	/**
+	* TODO: add a config.h that contains references "arrow", "hand" cursors, fonts, colors,
+	* window dimensions, etc...
+	*/
 	auto arrow = sf::Cursor::createFromSystem(sf::Cursor::Type::Arrow).value();
 	auto hand = sf::Cursor::createFromSystem(sf::Cursor::Type::Hand).value();
+	
 	BoardElement *bE = new BoardElement("Character", 100, 100);
-	shape.setFillColor(sf::Color::Green);
 	bool hovering = false;
+	
 	while (window.isOpen()) {
 		while (const std::optional event = window.pollEvent()) {
 
@@ -61,6 +65,5 @@ int main() {
 		bE->draw(&window);
 		window.display();
 	}
-	//Entity* entity = new Entity();
 	return 0;
 }

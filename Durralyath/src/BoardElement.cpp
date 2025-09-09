@@ -80,13 +80,6 @@ void BoardElement::drag(float cursor_xPos, float cursor_yPos) {
 	move(newXPos, newYPos);
 }
 
-/**
-* ??? QUESTION ???
-* So about this, elements like textures, shapes and text all inherit form a "Drawable"
-* class. I wonder which one's faster: passing a window reference as an argument so that
-* every element can draw its own things OR making each element return a list of Drawable
-* elements which the window can render on a "main" draw() method...
-*/
 void BoardElement::draw(sf::RenderWindow *window){
 	window->draw(*portrait);
 	window->draw(label);

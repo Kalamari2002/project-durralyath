@@ -156,7 +156,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\BoardElement.cpp" />
-    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
