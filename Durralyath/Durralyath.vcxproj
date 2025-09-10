@@ -155,12 +155,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\BoardElement.cpp" />
+    <ClCompile Include="src\board\Board.cpp" />
+    <ClCompile Include="src\board\BoardElement.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\user\ToolManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\BoardElement.h" />
+    <ClInclude Include="include\board\Board.h" />
+    <ClInclude Include="include\board\BoardElement.h" />
     <ClInclude Include="include\Entity.h" />
+    <ClInclude Include="include\user\ToolManager.h" />
+    <ClInclude Include="include\window\CursorManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

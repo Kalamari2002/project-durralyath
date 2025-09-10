@@ -1,5 +1,6 @@
 #pragma once
-#include "BoardElement.h"
+#include "board/Board.h"
+#include "window/CursorManager.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <SFML/Config.hpp>
@@ -13,16 +14,8 @@ sf::Color defaultFillColor(168,135,30);
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode({ windowWidth,windowHeight }), "Durralyath");
-
-	/**
-	* TODO: add a config.h that contains references "arrow", "hand" cursors, fonts, colors,
-	* window dimensions, etc...
-	*/
-	auto arrow = sf::Cursor::createFromSystem(sf::Cursor::Type::Arrow).value();
-	auto hand = sf::Cursor::createFromSystem(sf::Cursor::Type::Hand).value();
-	
-	BoardElement *bE = new BoardElement("Character", 100, 100);
-	bool hovering = false;
+	CursorManager* cursorManager = new CursorManager(&window);
+	Board* board = new Board("Campaign");
 	
 	while (window.isOpen()) {
 		while (const std::optional event = window.pollEvent()) {
@@ -31,38 +24,25 @@ int main() {
 			float xPos = sf::Mouse::getPosition(window).x;
 			float yPos = sf::Mouse::getPosition(window).y;
 			if (event->is<sf::Event::MouseMoved>()) {
-				if (bE->isHovering(xPos, yPos)) {
-					if (!hovering) {
-						hovering = true;
-						window.setMouseCursor(hand);
-					}
-				}
-				else {
-					if (hovering) {
-						hovering = false;
-						window.setMouseCursor(arrow);
-					}
-				}
-				if (bE->held) {
-					bE->drag(xPos, yPos);
-				}
-				std::cout << xPos << ", " << yPos << std::endl;
+				board->onMouseMove(xPos, yPos, cursorManager);
 			}
 			if (event->is<sf::Event::MouseButtonPressed>()) {
 				if (event->getIf<sf::Event::MouseButtonPressed>()->button == sf::Mouse::Button::Left) {
-					if (bE->isHovering(xPos, yPos)) {
-						bE->hold(xPos, yPos);
-					}
+					board->onLeftMousePressed(xPos, yPos);
+				}
+				if (event->getIf<sf::Event::MouseButtonPressed>()->button == sf::Mouse::Button::Right) {
+					board->onRightMousePressed();
 				}
 			}
 			if (event->is<sf::Event::MouseButtonReleased>()) {
 				if (event->getIf<sf::Event::MouseButtonReleased>()->button == sf::Mouse::Button::Left) {
-					if (bE->held) bE->release();
+					board->onLeftMouseReleased();
 				}
+				
 			}
 		}
 		window.clear(defaultFillColor);
-		bE->draw(&window);
+		board->drawElements(&window);
 		window.display();
 	}
 	return 0;

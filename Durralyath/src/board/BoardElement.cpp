@@ -1,4 +1,4 @@
-#include "BoardElement.h"
+#include "board/BoardElement.h"
 BoardElement::BoardElement(float xPos, float yPos) : name("Entity"), xPos(xPos), yPos(yPos), cursor_xOffset(0.0f), cursor_yOffset(0.0f),
 height(BASE_DIMENSION), width(BASE_DIMENSION), label(defaultFont, ""), hovered(false), held(false) {
 	
