@@ -1,6 +1,11 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+
+/**
+* Responsible for changing the cursor when needed. It's passed as a reference
+* to other objects.
+*/
 class CursorManager {
 private:
 	sf::RenderWindow& window;
@@ -10,11 +15,18 @@ private:
 public:
 	CursorManager(sf::RenderWindow& window) : window(window){}
 
+	/**
+	* Called when the cursor is hovering over something that's clickable.
+	*/
 	void onHoveringEnter() {
 		if (hovering) return;
 		hovering = true;
 		window.setMouseCursor(hand);
 	}
+
+	/**
+	* Called when the cursor exits an object that's clickable.
+	*/
 	void onHoveringExit() {
 		if (!hovering) return;
 		hovering = false;

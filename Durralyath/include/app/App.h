@@ -4,6 +4,10 @@
 #include "board/Board.h"
 #include "window/CursorManager.h"
 #include "config.h"
+/**
+* Runs the application. Instantiates the window, resources and objects needed
+* to run the application.
+*/
 class App
 {
 /**
@@ -19,13 +23,28 @@ class App
 * memory in the heap, you can just deallocate it and not have to move other board objects around.
 */
 private:
-	Resources resources;
-	sf::RenderWindow window;
-	CursorManager cursorManager;
-	Board* board;
+	Resources resources;			// Holds shared resources like textures, fonts, etc.
+	sf::RenderWindow window;		// Main window
+	CursorManager cursorManager;	// In charge of changing cursor
+	Board* board;					// Board where elements are created, drawn, interacted with
+private:
+	/**
+	* Uses window to check for events happening on screen. Calls specific object functions when
+	* certain events happen. (I wonder if a mediator pattern would work well here? Maybe objects could
+	* just subscribe to mouse clicks for eg. this way app doesn't have to call every single object)
+	*/
+	void pollEvents();
 public:
 	App();
 	~App();
+
+	/**
+	* App loop:
+	* 1. Poll events
+	* 2. Clear previous frame
+	* 3. Draw new frame
+	* 4. Display new frame
+	*/
 	void run();
 };
 

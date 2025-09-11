@@ -21,7 +21,7 @@ private:
 	float labelYOffset;						// used to position label below the portrait
 	float height, width;					// height and width of element. basically its bounds/rect
 	bool hovered;							// determines if cursor is currently hovering over this element or not
-	sf::CircleShape *portrait;				// portrait of the entity/character
+	sf::CircleShape portrait;				// portrait of the entity/character
 	sf::Text label;							// name label displayed below the portrait
 	std::string name;						// name of the entity/character
 private:
