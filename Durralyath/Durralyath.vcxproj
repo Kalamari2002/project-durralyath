@@ -155,15 +155,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\app\App.cpp" />
     <ClCompile Include="src\board\Board.cpp" />
     <ClCompile Include="src\board\BoardElement.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\user\ToolManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\app\App.h" />
     <ClInclude Include="include\board\Board.h" />
     <ClInclude Include="include\board\BoardElement.h" />
+    <ClInclude Include="include\config.h" />
     <ClInclude Include="include\Entity.h" />
+    <ClInclude Include="include\app\Resources.h" />
     <ClInclude Include="include\user\ToolManager.h" />
     <ClInclude Include="include\window\CursorManager.h" />
   </ItemGroup>

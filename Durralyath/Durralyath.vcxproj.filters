@@ -27,6 +27,9 @@
     <ClCompile Include="src\board\Board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\app\App.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Entity.h">
@@ -42,6 +45,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\window\CursorManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\app\Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\app\App.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

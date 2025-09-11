@@ -1,19 +1,19 @@
 #include "board/Board.h"
 #include <iostream>
 
-Board::Board(std::string name) : name(name), id(0) {
+Board::Board(std::string name, Resources& resources) : name(name), id(0), resources(resources) {
 	activeTool = USER_TOOLS::MOVE;
 	selectedElement = nullptr;
 	hoveredElement = nullptr;
-	BoardElement* newEl = new BoardElement("Character", 0, 0);
+	BoardElement* newEl = new BoardElement("Character", 0, 0, resources);
 	elements.push_back(newEl);
 }
 
-Board::Board(std::string name, unsigned int id) : name(name), id(id) {
+Board::Board(std::string name, unsigned int id, Resources& resources) : name(name), id(id), resources(resources) {
 	activeTool = USER_TOOLS::MOVE;
 	selectedElement = nullptr;
 	hoveredElement = nullptr;
-	BoardElement* newEl = new BoardElement("Character", 0, 0);
+	BoardElement* newEl = new BoardElement("Character", 0, 0, resources);
 	elements.push_back(newEl);
 }
 
@@ -38,7 +38,7 @@ void Board::onLeftMousePressed(float xPos, float yPos) {
 		}
 		break;
 	case USER_TOOLS::ADD_ELEMENT:
-		BoardElement* newElement = new BoardElement("Character", xPos, yPos);
+		BoardElement* newElement = new BoardElement("Character", xPos, yPos, resources);
 		elements.push_back(newElement);
 		break;
 	}
@@ -64,8 +64,7 @@ void Board::onRightMouseReleased() {
 	std::cout << "Right Released on Board" << std::endl;
 }
 
-void Board::onMouseMove(float xPos, float yPos , CursorManager* cursor) {
-	std::cout << "Mouse Moved on Board" << std::endl;
+void Board::onMouseMove(float xPos, float yPos , CursorManager& cursor) {
 	switch (activeTool) {
 	case USER_TOOLS::MOVE:
 		if (selectedElement != nullptr) {
@@ -74,11 +73,11 @@ void Board::onMouseMove(float xPos, float yPos , CursorManager* cursor) {
 		else {
 			for (BoardElement* el : elements) {
 				if (el->isHovering(xPos, yPos)) {
-					cursor->onHoveringEnter();
+					cursor.onHoveringEnter();
 					hoveredElement = el;
 					break;
 				}
-				cursor->onHoveringExit();
+				cursor.onHoveringExit();
 				hoveredElement = nullptr;
 			}
 		}
@@ -86,7 +85,7 @@ void Board::onMouseMove(float xPos, float yPos , CursorManager* cursor) {
 	}
 }
 
-void Board::drawElements(sf::RenderWindow* window) {
+void Board::drawElements(sf::RenderWindow& window) {
 	for (BoardElement* el : elements) {
 		el->draw(window);
 	}

@@ -1,6 +1,13 @@
 #include "board/BoardElement.h"
-BoardElement::BoardElement(float xPos, float yPos) : name("Entity"), xPos(xPos), yPos(yPos), cursor_xOffset(0.0f), cursor_yOffset(0.0f),
-height(BASE_DIMENSION), width(BASE_DIMENSION), label(defaultFont, ""), hovered(false), held(false) {
+BoardElement::BoardElement(float xPos, float yPos, Resources& resources) : 
+	name("Entity"), 
+	xPos(xPos), yPos(yPos), 
+	cursor_xOffset(0.0f), cursor_yOffset(0.0f),
+	height(BASE_DIMENSION), width(BASE_DIMENSION), 
+	label(resources.regularTextFont, ""), 
+	hovered(false), 
+	held(false) 
+{
 	
 	xOrigin = width / 2.0f;
 	yOrigin = height / 2.0f;
@@ -8,6 +15,9 @@ height(BASE_DIMENSION), width(BASE_DIMENSION), label(defaultFont, ""), hovered(f
 	portrait = new sf::CircleShape(width / 2.0f);
 	portrait->setOrigin(sf::Vector2f(xOrigin, yOrigin));
 	portrait->setPosition(sf::Vector2f(xPos, yPos));
+	if (resources.loadedDefaultPortrait) {
+		portrait->setTexture(&resources.defaultPortrait, false);
+	}
 
 	labelYOffset = height / 2.0f + 30;
 
@@ -17,14 +27,25 @@ height(BASE_DIMENSION), width(BASE_DIMENSION), label(defaultFont, ""), hovered(f
 	label.setFillColor(sf::Color::Black);
 	label.setPosition(sf::Vector2f(xPos, yPos + labelYOffset));
 }
-BoardElement::BoardElement(std::string name, float xPos, float yPos) : name(name), xPos(xPos), yPos(yPos), cursor_xOffset(0.0f), cursor_yOffset(0.0f),
-height(BASE_DIMENSION), width(BASE_DIMENSION), label(defaultFont, ""), hovered(false), held(false) {
+BoardElement::BoardElement(std::string name, float xPos, float yPos, Resources& resources) : 
+	name(name), 
+	xPos(xPos), yPos(yPos), 
+	cursor_xOffset(0.0f), cursor_yOffset(0.0f),
+	height(BASE_DIMENSION), width(BASE_DIMENSION), 
+	label(resources.regularTextFont, ""), 
+	hovered(false), 
+	held(false) 
+{
 	xOrigin = width / 2.0f;
 	yOrigin = height / 2.0f;
 
 	portrait = new sf::CircleShape(width / 2.0f);
 	portrait->setOrigin(sf::Vector2f(xOrigin, yOrigin));
 	portrait->setPosition(sf::Vector2f(xPos, yPos));
+	
+	if (resources.loadedDefaultPortrait) {
+		portrait->setTexture(&resources.defaultPortrait, false);
+	}
 
 	labelYOffset = height / 2.0f + 30;
 
@@ -80,7 +101,7 @@ void BoardElement::drag(float cursor_xPos, float cursor_yPos) {
 	move(newXPos, newYPos);
 }
 
-void BoardElement::draw(sf::RenderWindow *window){
-	window->draw(*portrait);
-	window->draw(label);
+void BoardElement::draw(sf::RenderWindow& window){
+	window.draw(*portrait);
+	window.draw(label);
 }

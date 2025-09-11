@@ -5,13 +5,15 @@
 #include <SFML/Graphics/Text.hpp>
 #include <filesystem>
 
+#include "app/Resources.h"
+
 /**
 * BoardElement represents a token in the board. It can dragged around.
 */
 class BoardElement
 {
 private:
-	const sf::Font defaultFont{ std::filesystem::path("assets/fonts/Quicksand-VariableFont_wght.ttf") };
+
 	const float BASE_DIMENSION = 200.0f;
 	float xPos, yPos;						// element's current position
 	float xOrigin, yOrigin;					// element's origin coords (centralizes element for more convenient transforms)
@@ -33,8 +35,8 @@ private:
 public:
 	bool held;
 public:
-	BoardElement(float xPos, float yPos);
-	BoardElement(std::string name, float xPos, float yPos);
+	BoardElement(float xPos, float yPos , Resources& resources);
+	BoardElement(std::string name, float xPos, float yPos, Resources& resources);
 
 	/**
 	* Called wheneve the mouse moves in the window. Checks if the cursor is within the
@@ -49,9 +51,9 @@ public:
 	
 	/**
 	* Takes in a window pointer and draws all associated drawable objects with this element.
-	* @param *window: pointer to the main RenderWindow object
+	* @param window: reference to the main RenderWindow object
 	*/
-	void draw(sf::RenderWindow *window);
+	void draw(sf::RenderWindow& window);
 
 	/**
 	* Called when mouse moves while element is being held. Sets the position where element
