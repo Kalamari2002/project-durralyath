@@ -1,19 +1,19 @@
 #include "board/Board.h"
 #include <iostream>
 
-Board::Board(std::string name, Resources& resources) : name(name), id(0), resources(resources) {
+Board::Board(std::string name, Resources& resources, tgui::Gui& gui) : name(name), id(0), resources(resources), gui(gui) {
 	activeTool = USER_TOOLS::MOVE;
 	selectedElement = nullptr;
 	hoveredElement = nullptr;
-	BoardElement* newEl = new BoardElement("Character", 0, 0, resources);
+	BoardElement* newEl = new BoardElement("Character", 0, 0, resources, gui);
 	elements.push_back(newEl);
 }
 
-Board::Board(std::string name, unsigned int id, Resources& resources) : name(name), id(id), resources(resources) {
+Board::Board(std::string name, unsigned int id, Resources& resources, tgui::Gui& gui) : name(name), id(id), resources(resources), gui(gui) {
 	activeTool = USER_TOOLS::MOVE;
 	selectedElement = nullptr;
 	hoveredElement = nullptr;
-	BoardElement* newEl = new BoardElement("Character", 0, 0, resources);
+	BoardElement* newEl = new BoardElement("Character", 0, 0, resources, gui);
 	elements.push_back(newEl);
 }
 
@@ -34,11 +34,11 @@ void Board::onLeftMousePressed(float xPos, float yPos) {
 	case USER_TOOLS::MOVE:
 		if (hoveredElement != nullptr) {
 			selectedElement = hoveredElement;
-			selectedElement->hold(xPos,yPos);
+			selectedElement->onMousePressed(xPos, yPos);
 		}
 		break;
 	case USER_TOOLS::ADD_ELEMENT:
-		BoardElement* newElement = new BoardElement("Character", xPos, yPos, resources);
+		BoardElement* newElement = new BoardElement("Character", xPos, yPos, resources, gui);
 		elements.push_back(newElement);
 		break;
 	}

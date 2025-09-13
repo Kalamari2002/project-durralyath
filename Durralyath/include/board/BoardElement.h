@@ -1,11 +1,17 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include <string>
+#include <filesystem>
+#include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
-#include <filesystem>
+#include <TGUI/TGUI.hpp>
+#include <TGUI/Backend/SFML-Graphics.hpp>
+
 
 #include "app/Resources.h"
+#include "config.h"
+#include "interface/EditableText.h"
+#include "interface/Token.h"
 
 /**
 * BoardElement represents a token in the board. It can dragged around.
@@ -21,9 +27,10 @@ private:
 	float labelYOffset;						// used to position label below the portrait
 	float height, width;					// height and width of element. basically its bounds/rect
 	bool hovered;							// determines if cursor is currently hovering over this element or not
-	sf::CircleShape portrait;				// portrait of the entity/character
-	sf::Text label;							// name label displayed below the portrait
+	EditableText nameTag;
+	Token token;
 	std::string name;						// name of the entity/character
+	tgui::Gui& gui;
 private:
 	/**
 	* Sets all relevant positions (self, portrait and label) associated with BoardElement to
@@ -35,8 +42,8 @@ private:
 public:
 	bool held;
 public:
-	BoardElement(float xPos, float yPos , Resources& resources);
-	BoardElement(std::string name, float xPos, float yPos, Resources& resources);
+	BoardElement(float xPos, float yPos , Resources& resources, tgui::Gui& gui);
+	BoardElement(std::string name, float xPos, float yPos, Resources& resources, tgui::Gui& gui);
 
 	/**
 	* Called wheneve the mouse moves in the window. Checks if the cursor is within the
@@ -71,6 +78,8 @@ public:
 	* @param cursor_yPos: cursor's y position at time of click
 	*/
 	void hold(float cursor_xPos, float cursor_yPos);
+
+	void onMousePressed(float cursor_xPos, float cursor_yPos);
 
 	/**
 	* Called when user releasees left mouse button while holding this element. Sets held to false.

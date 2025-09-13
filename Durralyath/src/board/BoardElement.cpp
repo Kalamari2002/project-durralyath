@@ -1,85 +1,59 @@
 #include "board/BoardElement.h"
-BoardElement::BoardElement(float xPos, float yPos, Resources& resources) : 
+BoardElement::BoardElement(float xPos, float yPos, Resources& resources, tgui::Gui& gui) :
 	name("Entity"), 
 	xPos(xPos), yPos(yPos), 
 	cursor_xOffset(0.0f), cursor_yOffset(0.0f),
-	height(BASE_DIMENSION), width(BASE_DIMENSION), 
-	label(resources.regularTextFont, ""), 
+	height(BASE_DIMENSION), width(BASE_DIMENSION),
+	gui(gui),
+	nameTag(name, resources.regularTextFont, gui, true),
+	token(xPos,yPos,height/2.0f),
 	hovered(false), 
-	held(false) 
+	held(false)
 {
 	
 	xOrigin = width / 2.0f;
 	yOrigin = height / 2.0f;
 
-	portrait.setRadius(width / 2.0f);
-	portrait.setOrigin(sf::Vector2f(xOrigin, yOrigin));
-	portrait.setPosition(sf::Vector2f(xPos, yPos));
 	if (resources.loadedDefaultPortrait) {
-		portrait.setTexture(&resources.defaultPortrait, false);
+		token.setTexture(&resources.defaultPortrait);
 	}
 
 	labelYOffset = height / 2.0f + 30;
-
-	label.setString(this->name);
-	const sf::FloatRect labelRect = label.getLocalBounds();
-	label.setOrigin(sf::Vector2f(labelRect.size.x / 2.0f, labelRect.size.y));
-	label.setFillColor(sf::Color::Black);
-	label.setPosition(sf::Vector2f(xPos, yPos + labelYOffset));
+	nameTag.setPosition(this->xPos, this->yPos + labelYOffset);
 }
-BoardElement::BoardElement(std::string name, float xPos, float yPos, Resources& resources) : 
+BoardElement::BoardElement(std::string name, float xPos, float yPos, Resources& resources, tgui::Gui& gui) :
 	name(name), 
 	xPos(xPos), yPos(yPos), 
 	cursor_xOffset(0.0f), cursor_yOffset(0.0f),
-	height(BASE_DIMENSION), width(BASE_DIMENSION), 
-	label(resources.regularTextFont, ""), 
-	hovered(false), 
-	held(false) 
+	height(BASE_DIMENSION), width(BASE_DIMENSION),
+	gui(gui),
+	nameTag(name, resources.regularTextFont, gui, true),
+	token(xPos, yPos, height / 2.0f),
+	hovered(false),
+	held(false)
 {
 	xOrigin = width / 2.0f;
 	yOrigin = height / 2.0f;
 
-	portrait.setRadius(width / 2.0f);
-	portrait.setOrigin(sf::Vector2f(xOrigin, yOrigin));
-	portrait.setPosition(sf::Vector2f(xPos, yPos));
 	
 	if (resources.loadedDefaultPortrait) {
-		portrait.setTexture(&resources.defaultPortrait, false);
+		token.setTexture(&resources.defaultPortrait);
 	}
 
 	labelYOffset = height / 2.0f + 30;
-
-	label.setString(this->name);
-	const sf::FloatRect labelRect = label.getLocalBounds();
-	label.setOrigin(sf::Vector2f(labelRect.size.x / 2.0f, labelRect.size.y));
-	label.setFillColor(sf::Color::Black);
-	label.setPosition(sf::Vector2f(xPos, yPos + labelYOffset));
+	nameTag.setPosition(this->xPos, this->yPos + labelYOffset);
 }
 
 bool BoardElement::isHovering(float cursor_xPos, float cursor_yPos) {
-	if (cursor_xPos >= (this->xPos - (this->width / 2.0f)) && cursor_xPos <= (this->xPos + (this->width / 2.0f)) &&
-		cursor_yPos >= (this->yPos - (this->height / 2.0f)) && cursor_yPos <= (this->yPos + (this->height / 2.0f))) {
-		if (!hovered) {
-			portrait.setFillColor(sf::Color::Green);
-			hovered = true;
-		}
-		return true;
-	}
-	
-	if(hovered){
-		portrait.setFillColor(sf::Color::White);
-		hovered = false;
-	}
-
-	return false;
+	return token.isHovering(cursor_xPos, cursor_yPos) || nameTag.isHovering(cursor_xPos, cursor_yPos);
 }
 
 void BoardElement::move(float xPos, float yPos){
 	this->xPos = xPos;
 	this->yPos = yPos;
 
-	portrait.setPosition(sf::Vector2f(this->xPos, this->yPos));
-	label.setPosition(sf::Vector2f(this->xPos, this->yPos + labelYOffset));
+	token.setPosition(this->xPos, this->yPos);
+	nameTag.setPosition(this->xPos, this->yPos + labelYOffset);
 }
 
 void BoardElement::hold(float cursor_xPos, float cursor_yPos) {
@@ -101,7 +75,16 @@ void BoardElement::drag(float cursor_xPos, float cursor_yPos) {
 	move(newXPos, newYPos);
 }
 
+void BoardElement::onMousePressed(float cursor_xPos, float cursor_yPos) {
+	if (token.isHovering(cursor_xPos, cursor_yPos)) {
+		hold(cursor_xPos, cursor_yPos);
+	}
+	else if (nameTag.isHovering(cursor_xPos, cursor_yPos)) {
+		nameTag.onMousePressed();
+	}
+}
+
 void BoardElement::draw(sf::RenderWindow& window){
-	window.draw(portrait);
-	window.draw(label);
+	token.draw(window);
+	nameTag.draw(window);
 }

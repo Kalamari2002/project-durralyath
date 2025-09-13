@@ -1,5 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <TGUI/TGUI.hpp>
+#include <TGUI/Backend/SFML-Graphics.hpp>
 #include "app/Resources.h"
 #include "board/Board.h"
 #include "window/CursorManager.h"
@@ -27,6 +29,7 @@ private:
 	sf::RenderWindow window;		// Main window
 	CursorManager cursorManager;	// In charge of changing cursor
 	Board* board;					// Board where elements are created, drawn, interacted with
+	tgui::Gui gui;
 private:
 	/**
 	* Uses window to check for events happening on screen. Calls specific object functions when

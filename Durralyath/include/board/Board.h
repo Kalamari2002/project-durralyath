@@ -3,6 +3,8 @@
 #include <vector>
 #include <filesystem>
 #include <SFML/Graphics.hpp>
+#include <TGUI/TGUI.hpp>
+#include <TGUI/Backend/SFML-Graphics.hpp>
 #include "window/CursorManager.h"
 #include "board/BoardElement.h"
 #include "app/Resources.h"
@@ -21,11 +23,13 @@ private:
 	unsigned int id;						// Unique identifier of a board
 	enum USER_TOOLS { CURSOR, MOVE, ADD_ELEMENT };	// List of all tools can be used
 	USER_TOOLS activeTool;							// Determines the tool that's currently being used
+	tgui::Gui& gui;
+
 public:
 	std::string name;						// Board name
 public:
-	Board(std::string name, Resources& resources);
-	Board(std::string name, unsigned int id, Resources& resources);
+	Board(std::string name, Resources& resources, tgui::Gui& gui);
+	Board(std::string name, unsigned int id, Resources& resources, tgui::Gui& gui);
 	~Board();
 
 	/**

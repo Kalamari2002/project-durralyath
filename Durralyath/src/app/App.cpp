@@ -1,6 +1,10 @@
 #include "app/App.h"
-App::App() : window(sf::VideoMode(sf::Vector2u(c_WINDOW_WIDTH, c_WINDOW_HEIGHT)), "Durralyath"), cursorManager(window) {
-	board = new Board("Board", resources);
+App::App() : 
+	window(sf::VideoMode(sf::Vector2u(c_WINDOW_WIDTH, c_WINDOW_HEIGHT)), "Durralyath"),
+	gui(window),
+	cursorManager(window) 
+{
+	board = new Board("Board", resources, gui);
 }
 
 App::~App() {
@@ -9,6 +13,8 @@ App::~App() {
 
 void App::pollEvents() {
 	while (const std::optional event = window.pollEvent()) {
+
+		gui.handleEvent(*event);
 
 		if (event->is<sf::Event::Closed>()) window.close();
 		float xPos = sf::Mouse::getPosition(window).x;
@@ -38,6 +44,7 @@ void App::run() {
 		pollEvents();
 		window.clear(c_DEFAULT_BACKGROUND_COLOR);
 		board->drawElements(window);
+		gui.draw();
 		window.display();
 	}
 }
