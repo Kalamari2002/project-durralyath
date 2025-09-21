@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\interface\InterfaceManager.cpp" />
     <ClCompile Include="src\interface\Clickable.cpp" />
     <ClCompile Include="src\interface\EditableText.cpp" />
     <ClCompile Include="src\app\App.cpp" />
@@ -163,6 +164,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\user\ToolManager.cpp" />
     <ClCompile Include="src\interface\Token.cpp" />
+    <ClCompile Include="src\interface\UInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\interface\Clickable.h" />
@@ -176,6 +178,9 @@
     <ClInclude Include="include\user\ToolManager.h" />
     <ClInclude Include="include\window\CursorManager.h" />
     <ClInclude Include="include\interface\Token.h" />
+    <ClInclude Include="include\interface\UInterface.h" />
+    <ClInclude Include="include\interface\InterfaceManager.h" />
+    <ClInclude Include="include\interface\OpenInterfaceClickable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -11,3 +11,4 @@ inline const std::filesystem::path c_TEXT_FONT_PATH = "assets/fonts/Quicksand-Va
 inline const std::filesystem::path c_DEFAULT_PORTRAIT_PATH = "assets/textures/board/default-portrait.jpg";
 
 inline const sf::Color c_DEFAULT_BACKGROUND_COLOR(168, 135, 30);
+inline const sf::Color c_DEFAULT_WINDOW_BACKGROUND(0, 200, 0);

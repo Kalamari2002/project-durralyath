@@ -4,6 +4,7 @@
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include "app/Resources.h"
 #include "board/Board.h"
+#include "interface/InterfaceManager.h"
 #include "window/CursorManager.h"
 #include "config.h"
 /**
@@ -28,6 +29,7 @@ private:
 	Resources resources;			// Holds shared resources like textures, fonts, etc.
 	sf::RenderWindow window;		// Main window
 	CursorManager cursorManager;	// In charge of changing cursor
+	InterfaceManager interfaceManager;
 	Board* board;					// Board where elements are created, drawn, interacted with
 	tgui::Gui gui;
 private:

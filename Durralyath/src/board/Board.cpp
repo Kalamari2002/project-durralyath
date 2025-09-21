@@ -1,7 +1,12 @@
 #include "board/Board.h"
 #include <iostream>
 
-Board::Board(std::string name, Resources& resources, tgui::Gui& gui) : name(name), id(0), resources(resources), gui(gui) {
+Board::Board(std::string name, Resources& resources, InterfaceManager& interfaceManager, tgui::Gui& gui) : 
+	name(name), 
+	id(0), 
+	resources(resources),
+	interfaceManager(interfaceManager),
+	gui(gui) {
 	activeTool = USER_TOOLS::MOVE;
 	selectedElement = nullptr;
 	hoveredElement = nullptr;
@@ -9,11 +14,16 @@ Board::Board(std::string name, Resources& resources, tgui::Gui& gui) : name(name
 	elements.push_back(newEl);
 }
 
-Board::Board(std::string name, unsigned int id, Resources& resources, tgui::Gui& gui) : name(name), id(id), resources(resources), gui(gui) {
+Board::Board(std::string name, unsigned int id, Resources& resources, InterfaceManager& interfaceManager, tgui::Gui& gui) : 
+	name(name), 
+	id(id), 
+	resources(resources),
+	interfaceManager(interfaceManager),
+	gui(gui) {
 	activeTool = USER_TOOLS::MOVE;
 	selectedElement = nullptr;
 	hoveredElement = nullptr;
-	BoardElement* newEl = new BoardElement("Character", 0, 0, resources, gui);
+	BoardElement* newEl = new BoardElement("Character", 0, 0, resources,gui);
 	elements.push_back(newEl);
 }
 
@@ -32,9 +42,10 @@ void Board::onLeftMousePressed(float xPos, float yPos) {
 	std::cout << "Left Pressed on Board" << std::endl;
 	switch (activeTool) {
 	case USER_TOOLS::MOVE:
+		interfaceManager.onMousePress(xPos, yPos);
 		if (hoveredElement != nullptr) {
 			selectedElement = hoveredElement;
-			selectedElement->onMousePressed(xPos, yPos);
+			selectedElement->onMousePressed(xPos, yPos, interfaceManager);
 		}
 		break;
 	case USER_TOOLS::ADD_ELEMENT:

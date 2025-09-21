@@ -2,9 +2,9 @@
 App::App() : 
 	window(sf::VideoMode(sf::Vector2u(c_WINDOW_WIDTH, c_WINDOW_HEIGHT)), "Durralyath"),
 	gui(window),
-	cursorManager(window) 
+	cursorManager(window)
 {
-	board = new Board("Board", resources, gui);
+	board = new Board("Board", resources, interfaceManager,gui);
 }
 
 App::~App() {

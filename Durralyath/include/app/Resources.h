@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "config.h"
+
 /**
 * Responsible for creating resources that will be shared among many objects.
 * Prevents the same resource from being created multiple times.

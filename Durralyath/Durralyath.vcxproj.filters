@@ -39,6 +39,12 @@
     <ClCompile Include="src\interface\Token.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\interface\UInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\interface\InterfaceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Entity.h">
@@ -72,6 +78,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\interface\Token.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\interface\UInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\interface\InterfaceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\interface\OpenInterfaceClickable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

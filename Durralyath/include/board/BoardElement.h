@@ -12,6 +12,7 @@
 #include "config.h"
 #include "interface/EditableText.h"
 #include "interface/Token.h"
+#include "interface/InterfaceManager.h"
 
 /**
 * BoardElement represents a token in the board. It can dragged around.
@@ -79,7 +80,7 @@ public:
 	*/
 	void hold(float cursor_xPos, float cursor_yPos);
 
-	void onMousePressed(float cursor_xPos, float cursor_yPos);
+	void onMousePressed(float cursor_xPos, float cursor_yPos, InterfaceManager& interfaceManager);
 
 	/**
 	* Called when user releasees left mouse button while holding this element. Sets held to false.

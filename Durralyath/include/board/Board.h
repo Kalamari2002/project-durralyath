@@ -8,6 +8,7 @@
 #include "window/CursorManager.h"
 #include "board/BoardElement.h"
 #include "app/Resources.h"
+#include "interface/InterfaceManager.h"
 
 /**
 * Main class that's responsible for keeping track of elements, drawing them 
@@ -24,12 +25,12 @@ private:
 	enum USER_TOOLS { CURSOR, MOVE, ADD_ELEMENT };	// List of all tools can be used
 	USER_TOOLS activeTool;							// Determines the tool that's currently being used
 	tgui::Gui& gui;
-
+	InterfaceManager& interfaceManager;
 public:
 	std::string name;						// Board name
 public:
-	Board(std::string name, Resources& resources, tgui::Gui& gui);
-	Board(std::string name, unsigned int id, Resources& resources, tgui::Gui& gui);
+	Board(std::string name, Resources& resources, InterfaceManager& interfaceManager, tgui::Gui& gui);
+	Board(std::string name, unsigned int id, Resources& resources, InterfaceManager& interfaceManager, tgui::Gui& gui);
 	~Board();
 
 	/**

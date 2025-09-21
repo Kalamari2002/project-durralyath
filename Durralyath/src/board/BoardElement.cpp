@@ -5,7 +5,7 @@ BoardElement::BoardElement(float xPos, float yPos, Resources& resources, tgui::G
 	cursor_xOffset(0.0f), cursor_yOffset(0.0f),
 	height(BASE_DIMENSION), width(BASE_DIMENSION),
 	gui(gui),
-	nameTag(name, resources.regularTextFont, gui, true),
+	nameTag(name, resources.regularTextFont, gui),
 	token(xPos,yPos,height/2.0f),
 	hovered(false), 
 	held(false)
@@ -19,6 +19,7 @@ BoardElement::BoardElement(float xPos, float yPos, Resources& resources, tgui::G
 	}
 
 	labelYOffset = height / 2.0f + 30;
+	nameTag.centralize();
 	nameTag.setPosition(this->xPos, this->yPos + labelYOffset);
 }
 BoardElement::BoardElement(std::string name, float xPos, float yPos, Resources& resources, tgui::Gui& gui) :
@@ -27,7 +28,7 @@ BoardElement::BoardElement(std::string name, float xPos, float yPos, Resources& 
 	cursor_xOffset(0.0f), cursor_yOffset(0.0f),
 	height(BASE_DIMENSION), width(BASE_DIMENSION),
 	gui(gui),
-	nameTag(name, resources.regularTextFont, gui, true),
+	nameTag(name, resources.regularTextFont, gui),
 	token(xPos, yPos, height / 2.0f),
 	hovered(false),
 	held(false)
@@ -41,11 +42,12 @@ BoardElement::BoardElement(std::string name, float xPos, float yPos, Resources& 
 	}
 
 	labelYOffset = height / 2.0f + 30;
+	nameTag.centralize();
 	nameTag.setPosition(this->xPos, this->yPos + labelYOffset);
 }
 
 bool BoardElement::isHovering(float cursor_xPos, float cursor_yPos) {
-	return token.isHovering(cursor_xPos, cursor_yPos) || nameTag.isHovering(cursor_xPos, cursor_yPos);
+	return token.isHovering(cursor_xPos, cursor_yPos) || nameTag.clickable.isHovering(cursor_xPos, cursor_yPos);
 }
 
 void BoardElement::move(float xPos, float yPos){
@@ -75,12 +77,13 @@ void BoardElement::drag(float cursor_xPos, float cursor_yPos) {
 	move(newXPos, newYPos);
 }
 
-void BoardElement::onMousePressed(float cursor_xPos, float cursor_yPos) {
+void BoardElement::onMousePressed(float cursor_xPos, float cursor_yPos, InterfaceManager& interfaceManager) {
 	if (token.isHovering(cursor_xPos, cursor_yPos)) {
 		hold(cursor_xPos, cursor_yPos);
 	}
-	else if (nameTag.isHovering(cursor_xPos, cursor_yPos)) {
-		nameTag.onMousePressed();
+	else if (nameTag.clickable.isHovering(cursor_xPos, cursor_yPos)) {
+		nameTag.clickable.onMousePressed();
+		interfaceManager.switchInterface(&nameTag);
 	}
 }
 

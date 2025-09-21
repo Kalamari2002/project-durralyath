@@ -3,29 +3,39 @@
 #include <TGUI/TGUI.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
 #include <string>
-#include "interface/Clickable.h"
-class EditableText : public Clickable
+#include "interface/UInterface.h"
+#include "interface/OpenInterfaceClickable.h"
+class EditableText : public UInterface
 {
 private:
 	sf::Font& font;
 	sf::Text textDisplay;
 	sf::Color textColor;
-	tgui::TextArea::Ptr textArea;
+	tgui::Gui& gui;
+	tgui::EditBox::Ptr textArea;
 	std::string content;
 	unsigned int characterSize;
+
 	float ta_xOffset = 0;
 	float ta_yOffset = 0;
-	const float TA_HEIGHT_MODIFIER = 10.0f;
-	const float TA_WIDTH_MODIFIER = 10.0f;
-
+	const float TA_HEIGHT_MODIFIER = 10.0f; // This will vary among different children
+	const float TA_WIDTH_MODIFIER = 10.0f; // same here
+	const float TA_WIDTH = 400.0f;  // same here
+	const unsigned int MAX_CHARACTER = 20; // same here
+private:
+	void changeText(const tgui::String newText);
 public:
-	EditableText(std::string content, sf::Font& font, tgui::Gui& gui, bool isCentralized = false);
-	EditableText(std::string content, sf::Font& font, sf::Color textColor, tgui::Gui& gui, bool isCrentrlized = false);
-
+	OpenInterfaceClickable clickable;
+public:
+	EditableText(std::string content, sf::Font& font, tgui::Gui& gui);
+	
+	void activate() override;
+	void deactivate() override;
+	void centralize() override;
+	void setDimensions(float width, float height) override;
 	void setPosition(float xPos, float yPos) override;
-	void setOrigin(float xOrigin, float yOrigin);
-	void onMousePressed() override;
-	void centralize();
+	void setOrigin(float xOrigin, float yOrigin) override;
+	bool onClickAway() override;
 	void draw(sf::RenderWindow& window) override;
 };
 
