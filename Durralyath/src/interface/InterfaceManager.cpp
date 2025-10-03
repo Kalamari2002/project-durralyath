@@ -1,4 +1,5 @@
 #include "interface/InterfaceManager.h"
+#include <iostream>
 
 InterfaceManager::InterfaceManager() : activeInterface(nullptr){}
 
@@ -18,8 +19,16 @@ void InterfaceManager::switchInterface(UInterface* interface) {
 }
 
 void InterfaceManager::subscribe(UInterface* interface) {
+	std::cout << "subscribed" << std::endl;
 	interfaces.push_back(interface);
 }
+
+void InterfaceManager::onKeyPressed(const sf::Keyboard::Scan scancode) {
+	if (activeInterface->onKeyPressed(scancode)) {
+		activeInterface = nullptr;
+	}
+}
+
 
 void InterfaceManager::onMousePress(float cursor_xPos, float cursor_yPos) {
 	if (activeInterface != nullptr) {

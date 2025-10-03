@@ -18,8 +18,8 @@ BoardElement::BoardElement(float xPos, float yPos, Resources& resources, tgui::G
 		token.setTexture(&resources.defaultPortrait);
 	}
 
-	labelYOffset = height / 2.0f + 30;
-	nameTag.centralize();
+	labelYOffset = height / 2.0f;
+	nameTag.centralize(true, false);
 	nameTag.setPosition(this->xPos, this->yPos + labelYOffset);
 }
 BoardElement::BoardElement(std::string name, float xPos, float yPos, Resources& resources, tgui::Gui& gui) :
@@ -41,8 +41,8 @@ BoardElement::BoardElement(std::string name, float xPos, float yPos, Resources& 
 		token.setTexture(&resources.defaultPortrait);
 	}
 
-	labelYOffset = height / 2.0f + 30;
-	nameTag.centralize();
+	labelYOffset = height / 2.0f;
+	nameTag.centralize(true, false);
 	nameTag.setPosition(this->xPos, this->yPos + labelYOffset);
 }
 

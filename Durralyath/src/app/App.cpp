@@ -17,8 +17,16 @@ void App::pollEvents() {
 		gui.handleEvent(*event);
 
 		if (event->is<sf::Event::Closed>()) window.close();
+
+		if (event->is<sf::Event::KeyPressed>()) {
+			if (const auto* keyPress = event->getIf<sf::Event::KeyPressed>()) {
+				interfaceManager.onKeyPressed(keyPress->scancode);
+			}
+		}
+
 		float xPos = sf::Mouse::getPosition(window).x;
 		float yPos = sf::Mouse::getPosition(window).y;
+
 		if (event->is<sf::Event::MouseMoved>()) {
 			board->onMouseMove(xPos, yPos, cursorManager);
 		}

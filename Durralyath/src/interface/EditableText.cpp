@@ -1,4 +1,5 @@
 #include "interface/EditableText.h"
+#include <iostream>
 
 EditableText::EditableText(std::string content, sf::Font& font, tgui::Gui& gui) :
 	characterSize(30),
@@ -19,13 +20,11 @@ EditableText::EditableText(std::string content, sf::Font& font, tgui::Gui& gui) 
 	
 	auto textBoundSize = textDisplay.getLocalBounds().size;
 	setDimensions(textBoundSize.x, textBoundSize.y);
-	
-	ta_xOffset = (TA_WIDTH) / 2;
-	ta_yOffset = textBoundSize.y / 2 + TA_HEIGHT_MODIFIER;
+
+	textArea->setTextSize(characterSize);
 	textArea->setWidth(TA_WIDTH);
 	textArea->setHeight(height + TA_HEIGHT_MODIFIER);
-	textArea->setPosition(xPos - ta_xOffset, yPos - ta_yOffset);
-	textArea->setTextSize(characterSize);
+	textArea->setPosition(xPos, yPos);
 	textArea->setVisible(false);
 	textArea->setMaximumCharacters(MAX_CHARACTER);
 	textArea->setText(content);
@@ -53,9 +52,14 @@ void EditableText::setDimensions(float width, float height) {
 void EditableText::setPosition(float xPos, float yPos) {
 	this->xPos = xPos;
 	this->yPos = yPos;
-	clickable.setPosition(this->xPos, this->yPos);
 	textDisplay.setPosition(sf::Vector2f(this->xPos, this->yPos));
-	textArea->setPosition(tgui::Vector2f(this->xPos - ta_xOffset, this->yPos - ta_yOffset));
+
+	float clYOffset = textDisplay.getLocalBounds().size.y;
+	clickable.setPosition(this->xPos, this->yPos + clYOffset);
+	
+	float taXOffset = xCentralized ? textArea->getSize().x / 2.0f : 0.0f;
+	float taYOffset = yCentralized ? textArea->getSize().y / 2.0f : 0.0f;
+	textArea->setPosition(tgui::Vector2f(this->xPos - taXOffset, this->yPos - yCentralized));
 }
 
 void EditableText::setOrigin(float xOrigin, float yOrigin) {
@@ -64,9 +68,27 @@ void EditableText::setOrigin(float xOrigin, float yOrigin) {
 	textDisplay.setOrigin(sf::Vector2f(xOrigin, yOrigin));
 }
 
-void EditableText::centralize() {
+void EditableText::centralize(bool centralizeX, bool centralizeY) {
+	std::cout << "centralized" << std::endl;
 	const sf::FloatRect displayRect = textDisplay.getLocalBounds();
-	setOrigin(displayRect.size.x / 2.0f, displayRect.size.y);
+	float xCenter = centralizeX ? displayRect.size.x / 2.0f : xOrigin;
+	float yCenter = centralizeY ? displayRect.size.y / 2.0f : yOrigin;
+	setOrigin(xCenter, yCenter);
+
+	xCentralized = centralizeX;
+	yCentralized = centralizeY;
+}
+
+bool EditableText::onKeyPressed(sf::Keyboard::Scan scancode) {
+	switch (scancode)
+	{
+	case sf::Keyboard::Scan::Enter:
+		deactivate();
+		return true;
+	default:
+		break;
+	}
+	return false;
 }
 
 bool EditableText::onClickAway() {
@@ -78,9 +100,13 @@ void EditableText::changeText(const tgui::String newText) {
 	content = std::string(newText);
 	textDisplay.setString(content);
 	auto textBoundSize = textDisplay.getLocalBounds().size;
-	setDimensions(textBoundSize.x, textBoundSize.y);
+	setDimensions(textBoundSize.x, height);
+	if (xCentralized || yCentralized) {
+		centralize(xCentralized, yCentralized);
+	}
 }
 
 void EditableText::draw(sf::RenderWindow& window) {
-	window.draw(textDisplay);
+	if(!this->getIsActive())	// If current textbox is being edited, don't display text underneath
+		window.draw(textDisplay);
 }

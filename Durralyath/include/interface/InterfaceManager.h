@@ -16,6 +16,8 @@ public:
 	void switchInterface(UInterface* interface);
 	void subscribe(UInterface* interface);
 	void unsubscribe(UInterface* interface){}
+
+	void onKeyPressed(const sf::Keyboard::Scan scancode);
 	void onMousePress(float cursor_xPos, float cursor_yPos);
 };
 

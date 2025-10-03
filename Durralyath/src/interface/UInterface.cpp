@@ -44,9 +44,9 @@ void UInterface::setDimensions(float width, float height) {
 	frame.setSize(sf::Vector2f(this->width, this->height));
 }
 
-void UInterface::centralize() {
-	float xCenter = width / 2.0f;
-	float yCenter = height / 2.0f;
+void UInterface::centralize(bool centralizeX, bool centralizeY) {
+	float xCenter = centralizeX ? width / 2.0f : xOrigin;
+	float yCenter = centralizeY ? height / 2.0f : yOrigin;
 	setOrigin(xCenter, yCenter);
 }
 
@@ -77,6 +77,10 @@ bool UInterface::isWithinBounds(float cursor_xPos, float cursor_yPos) {
 		cursor_xPos >= topCornerX && cursor_xPos <= topCornerX + width &&
 		cursor_yPos >= topCornerY && cursor_yPos <= topCornerY + height
 	);
+}
+
+bool UInterface::onKeyPressed(sf::Keyboard::Scan scancode) {
+	return false;
 }
 
 bool UInterface::onClickAway() {

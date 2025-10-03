@@ -16,12 +16,13 @@ private:
 	std::string content;
 	unsigned int characterSize;
 
-	float ta_xOffset = 0;
-	float ta_yOffset = 0;
 	const float TA_HEIGHT_MODIFIER = 10.0f; // This will vary among different children
 	const float TA_WIDTH_MODIFIER = 10.0f; // same here
 	const float TA_WIDTH = 400.0f;  // same here
 	const unsigned int MAX_CHARACTER = 20; // same here
+
+	bool xCentralized = false;
+	bool yCentralized = false;
 private:
 	void changeText(const tgui::String newText);
 public:
@@ -31,11 +32,14 @@ public:
 	
 	void activate() override;
 	void deactivate() override;
-	void centralize() override;
+	void centralize(bool centralizeX=true, bool centralizeY=true) override;
 	void setDimensions(float width, float height) override;
 	void setPosition(float xPos, float yPos) override;
 	void setOrigin(float xOrigin, float yOrigin) override;
+
+	bool onKeyPressed(sf::Keyboard::Scan scancode) override;
 	bool onClickAway() override;
+	
 	void draw(sf::RenderWindow& window) override;
 };
 
