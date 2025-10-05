@@ -5,10 +5,12 @@
 #include <SFML/Graphics.hpp>
 #include <TGUI/TGUI.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
+
 #include "window/CursorManager.h"
 #include "board/BoardElement.h"
 #include "app/Resources.h"
 #include "interface/InterfaceManager.h"
+#include "board/EdgeManager.h"
 
 /**
 * Main class that's responsible for keeping track of elements, drawing them 
@@ -26,6 +28,8 @@ private:
 	USER_TOOLS activeTool;							// Determines the tool that's currently being used
 	tgui::Gui& gui;
 	InterfaceManager& interfaceManager;
+	EdgeManager edgeManager;
+	unsigned int idCount = 0;
 public:
 	std::string name;						// Board name
 public:

@@ -1,6 +1,7 @@
 #include "board/BoardElement.h"
-BoardElement::BoardElement(float xPos, float yPos, Resources& resources, tgui::Gui& gui) :
-	name("Entity"), 
+BoardElement::BoardElement(unsigned int id, float xPos, float yPos, Resources& resources, tgui::Gui& gui) :
+	name("Entity"),
+	id(id),
 	xPos(xPos), yPos(yPos), 
 	cursor_xOffset(0.0f), cursor_yOffset(0.0f),
 	height(BASE_DIMENSION), width(BASE_DIMENSION),
@@ -22,7 +23,8 @@ BoardElement::BoardElement(float xPos, float yPos, Resources& resources, tgui::G
 	nameTag.centralize(true, false);
 	nameTag.setPosition(this->xPos, this->yPos + labelYOffset);
 }
-BoardElement::BoardElement(std::string name, float xPos, float yPos, Resources& resources, tgui::Gui& gui) :
+BoardElement::BoardElement(unsigned int id, std::string name, float xPos, float yPos, Resources& resources, tgui::Gui& gui) :
+	id(id),
 	name(name), 
 	xPos(xPos), yPos(yPos), 
 	cursor_xOffset(0.0f), cursor_yOffset(0.0f),
@@ -90,4 +92,12 @@ void BoardElement::onMousePressed(float cursor_xPos, float cursor_yPos, Interfac
 void BoardElement::draw(sf::RenderWindow& window){
 	token.draw(window);
 	nameTag.draw(window);
+}
+
+sf::Vector2f BoardElement::getPosition() {
+	return sf::Vector2f(this->xPos, this->yPos);
+}
+
+unsigned int BoardElement::getId() {
+	return id;
 }

@@ -20,7 +20,6 @@
 class BoardElement
 {
 private:
-
 	const float BASE_DIMENSION = 200.0f;
 	float xPos, yPos;						// element's current position
 	float xOrigin, yOrigin;					// element's origin coords (centralizes element for more convenient transforms)
@@ -28,6 +27,7 @@ private:
 	float labelYOffset;						// used to position label below the portrait
 	float height, width;					// height and width of element. basically its bounds/rect
 	bool hovered;							// determines if cursor is currently hovering over this element or not
+	unsigned id;
 	EditableText nameTag;
 	Token token;
 	std::string name;						// name of the entity/character
@@ -43,8 +43,8 @@ private:
 public:
 	bool held;
 public:
-	BoardElement(float xPos, float yPos , Resources& resources, tgui::Gui& gui);
-	BoardElement(std::string name, float xPos, float yPos, Resources& resources, tgui::Gui& gui);
+	BoardElement(unsigned int id, float xPos, float yPos , Resources& resources, tgui::Gui& gui);
+	BoardElement(unsigned int id, std::string name, float xPos, float yPos, Resources& resources, tgui::Gui& gui);
 
 	/**
 	* Called wheneve the mouse moves in the window. Checks if the cursor is within the
@@ -86,5 +86,9 @@ public:
 	* Called when user releasees left mouse button while holding this element. Sets held to false.
 	*/
 	void release();
+
+	sf::Vector2f getPosition();
+
+	unsigned int getId();
 };
 

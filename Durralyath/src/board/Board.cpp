@@ -6,11 +6,13 @@ Board::Board(std::string name, Resources& resources, InterfaceManager& interface
 	id(0), 
 	resources(resources),
 	interfaceManager(interfaceManager),
-	gui(gui) {
+	gui(gui),
+	edgeManager(resources, gui)
+{
 	activeTool = USER_TOOLS::MOVE;
 	selectedElement = nullptr;
 	hoveredElement = nullptr;
-	BoardElement* newEl = new BoardElement("Character", 0, 0, resources, gui);
+	BoardElement* newEl = new BoardElement(idCount++, "Character", 0, 0, resources, gui);
 	elements.push_back(newEl);
 }
 
@@ -19,11 +21,13 @@ Board::Board(std::string name, unsigned int id, Resources& resources, InterfaceM
 	id(id), 
 	resources(resources),
 	interfaceManager(interfaceManager),
-	gui(gui) {
+	gui(gui),
+	edgeManager(resources, gui)
+{
 	activeTool = USER_TOOLS::MOVE;
 	selectedElement = nullptr;
 	hoveredElement = nullptr;
-	BoardElement* newEl = new BoardElement("Character", 0, 0, resources,gui);
+	BoardElement* newEl = new BoardElement(idCount++, "Character", 0, 0, resources,gui);
 	elements.push_back(newEl);
 }
 
@@ -49,8 +53,11 @@ void Board::onLeftMousePressed(float xPos, float yPos) {
 		}
 		break;
 	case USER_TOOLS::ADD_ELEMENT:
-		BoardElement* newElement = new BoardElement("Character", xPos, yPos, resources, gui);
+		BoardElement* newElement = new BoardElement(idCount++, "Character", xPos, yPos, resources, gui);
 		elements.push_back(newElement);
+		if (elements.size() == 2) {
+			edgeManager.createEdge(elements[0], elements[1]);
+		}
 		break;
 	}
 
@@ -80,6 +87,7 @@ void Board::onMouseMove(float xPos, float yPos , CursorManager& cursor) {
 	case USER_TOOLS::MOVE:
 		if (selectedElement != nullptr) {
 			selectedElement->drag(xPos, yPos);
+			edgeManager.onElementMove(selectedElement);
 		}
 		else {
 			for (BoardElement* el : elements) {
@@ -97,6 +105,7 @@ void Board::onMouseMove(float xPos, float yPos , CursorManager& cursor) {
 }
 
 void Board::drawElements(sf::RenderWindow& window) {
+	edgeManager.draw(window);
 	for (BoardElement* el : elements) {
 		el->draw(window);
 	}
