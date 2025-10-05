@@ -30,6 +30,7 @@ EditableText::EditableText(std::string content, sf::Font& font, tgui::Gui& gui) 
 	textArea->setText(content);
 	gui.add(textArea);
 
+	std::cout << this->content << std::endl;
 }
 
 void EditableText::activate() {

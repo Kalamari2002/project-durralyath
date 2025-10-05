@@ -17,10 +17,10 @@ private:
 	class Edge {
 	private:
 		const float PI = 3.1415926;
+		const float LINE_THICKNESS = 10.0f;
 		BoardElement* vertices[2];
 		std::string labelText;
 		EditableText labelTag;
-		const float LINE_THICKNESS = 10.0f;
 	public:
 		sf::RectangleShape line;
 
@@ -31,7 +31,10 @@ private:
 		{
 			vertices[0] = vertex1;
 			vertices[1] = vertex2;
-		
+
+			line.setFillColor(c_DEFAULT_LINE_COLOR);
+			labelTag.centralize(true, false);
+
 			onVertexMoved();
 		}
 
@@ -56,8 +59,14 @@ private:
 			float rads = std::atan2f(yDiff, xDiff);
 
 			line.setRotation(sf::radians(rads));
-			line.setFillColor(c_DEFAULT_LINE_COLOR);
 
+			labelTag.setPosition(xMid, yMid);
+
+		}
+
+		void draw(sf::RenderWindow& window) {
+			window.draw(line);
+			labelTag.draw(window);
 		}
 	};
 	std::vector<Edge*> edges;

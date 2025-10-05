@@ -1,8 +1,8 @@
 #include "board/EdgeManager.h"
 
-EdgeManager::EdgeManager(Resources& resources, tgui::Gui& gui):
-resources(resources),
-gui(gui)
+EdgeManager::EdgeManager(Resources& resources, tgui::Gui& gui) :
+	resources(resources),
+	gui(gui)
 {}
 
 EdgeManager::~EdgeManager() {
@@ -22,7 +22,7 @@ void EdgeManager::createEdge(BoardElement* vertex1, BoardElement* vertex2) {
 void EdgeManager::draw(sf::RenderWindow& window) {
 	if (edges.size() == 0) return;
 	for (Edge* edge : edges) {
-		window.draw(edge->line);
+		edge->draw(window);
 	}
 }
 
