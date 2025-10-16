@@ -31,6 +31,7 @@ private:
 	EditableText nameTag;
 	Token token;
 	std::string name;						// name of the entity/character
+	InterfaceManager& interfaceManager;
 	tgui::Gui& gui;
 private:
 	/**
@@ -43,8 +44,8 @@ private:
 public:
 	bool held;
 public:
-	BoardElement(unsigned int id, float xPos, float yPos , Resources& resources, tgui::Gui& gui);
-	BoardElement(unsigned int id, std::string name, float xPos, float yPos, Resources& resources, tgui::Gui& gui);
+	BoardElement(unsigned int id, float xPos, float yPos, InterfaceManager& interfaceManager, Resources& resources, tgui::Gui& gui);
+	BoardElement(unsigned int id, std::string name, float xPos, float yPos, InterfaceManager& interfaceManager, Resources& resources, tgui::Gui& gui);
 
 	/**
 	* Called wheneve the mouse moves in the window. Checks if the cursor is within the
@@ -80,7 +81,7 @@ public:
 	*/
 	void hold(float cursor_xPos, float cursor_yPos);
 
-	void onMousePressed(float cursor_xPos, float cursor_yPos, InterfaceManager& interfaceManager);
+	void onMousePressed(float cursor_xPos, float cursor_yPos);
 
 	/**
 	* Called when user releasees left mouse button while holding this element. Sets held to false.

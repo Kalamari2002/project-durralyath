@@ -10,7 +10,7 @@
 #include "board/BoardElement.h"
 #include "interface/EditableText.h"
 #include "app/Resources.h"
-
+#include "interface/InterfaceManager.h"
 class EdgeManager
 {
 private:
@@ -20,6 +20,7 @@ private:
 		const float LINE_THICKNESS = 10.0f;
 		BoardElement* vertices[2];
 		std::string labelText;
+	public:
 		EditableText labelTag;
 	public:
 		sf::RectangleShape line;
@@ -70,11 +71,12 @@ private:
 		}
 	};
 	std::vector<Edge*> edges;
+	InterfaceManager& interfaceManager;
 	Resources& resources;
 	tgui::Gui& gui;
 	std::map<unsigned int, std::vector<Edge*>> neighborMap;
 public:
-	EdgeManager(Resources& resources, tgui::Gui& gui);
+	EdgeManager(InterfaceManager& interfaceManager, Resources& resources, tgui::Gui& gui);
 	~EdgeManager();
 
 	void onElementMove(BoardElement* element);

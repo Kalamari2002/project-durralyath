@@ -7,12 +7,12 @@ Board::Board(std::string name, Resources& resources, InterfaceManager& interface
 	resources(resources),
 	interfaceManager(interfaceManager),
 	gui(gui),
-	edgeManager(resources, gui)
+	edgeManager(interfaceManager, resources, gui)
 {
 	activeTool = USER_TOOLS::MOVE;
 	selectedElement = nullptr;
 	hoveredElement = nullptr;
-	BoardElement* newEl = new BoardElement(idCount++, "Character", 0, 0, resources, gui);
+	BoardElement* newEl = new BoardElement(idCount++, "Character", 0, 0, this->interfaceManager, resources, gui);
 	elements.push_back(newEl);
 }
 
@@ -22,12 +22,12 @@ Board::Board(std::string name, unsigned int id, Resources& resources, InterfaceM
 	resources(resources),
 	interfaceManager(interfaceManager),
 	gui(gui),
-	edgeManager(resources, gui)
+	edgeManager(interfaceManager, resources, gui)
 {
 	activeTool = USER_TOOLS::MOVE;
 	selectedElement = nullptr;
 	hoveredElement = nullptr;
-	BoardElement* newEl = new BoardElement(idCount++, "Character", 0, 0, resources,gui);
+	BoardElement* newEl = new BoardElement(idCount++, "Character", 0, 0, this->interfaceManager, resources,gui);
 	elements.push_back(newEl);
 }
 
@@ -49,11 +49,11 @@ void Board::onLeftMousePressed(float xPos, float yPos) {
 		interfaceManager.onMousePress(xPos, yPos);
 		if (hoveredElement != nullptr) {
 			selectedElement = hoveredElement;
-			selectedElement->onMousePressed(xPos, yPos, interfaceManager);
+			selectedElement->onMousePressed(xPos, yPos);
 		}
 		break;
 	case USER_TOOLS::ADD_ELEMENT:
-		BoardElement* newElement = new BoardElement(idCount++, "Character", xPos, yPos, resources, gui);
+		BoardElement* newElement = new BoardElement(idCount++, "Character", xPos, yPos, this->interfaceManager, resources, gui);
 		elements.push_back(newElement);
 		if (elements.size() == 2) {
 			edgeManager.createEdge(elements[0], elements[1]);
@@ -85,6 +85,10 @@ void Board::onRightMouseReleased() {
 void Board::onMouseMove(float xPos, float yPos , CursorManager& cursor) {
 	switch (activeTool) {
 	case USER_TOOLS::MOVE:
+		if (interfaceManager.isHovering(xPos, yPos)) {
+			cursor.onHoveringEnter();
+			break;
+		}
 		if (selectedElement != nullptr) {
 			selectedElement->drag(xPos, yPos);
 			edgeManager.onElementMove(selectedElement);

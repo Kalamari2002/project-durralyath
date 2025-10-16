@@ -1,10 +1,12 @@
 #include "board/BoardElement.h"
-BoardElement::BoardElement(unsigned int id, float xPos, float yPos, Resources& resources, tgui::Gui& gui) :
+BoardElement::BoardElement(unsigned int id, float xPos, float yPos, 
+	InterfaceManager& interfaceManager, Resources& resources, tgui::Gui& gui) :
 	name("Entity"),
 	id(id),
 	xPos(xPos), yPos(yPos), 
 	cursor_xOffset(0.0f), cursor_yOffset(0.0f),
 	height(BASE_DIMENSION), width(BASE_DIMENSION),
+	interfaceManager(interfaceManager),
 	gui(gui),
 	nameTag(name, resources.regularTextFont, gui),
 	token(xPos,yPos,height/2.0f),
@@ -22,13 +24,17 @@ BoardElement::BoardElement(unsigned int id, float xPos, float yPos, Resources& r
 	labelYOffset = height / 2.0f;
 	nameTag.centralize(true, false);
 	nameTag.setPosition(this->xPos, this->yPos + labelYOffset);
+	interfaceManager.subscribe(&nameTag);
+
 }
-BoardElement::BoardElement(unsigned int id, std::string name, float xPos, float yPos, Resources& resources, tgui::Gui& gui) :
+BoardElement::BoardElement(unsigned int id, std::string name, float xPos, float yPos, 
+	InterfaceManager& interfaceManager, Resources& resources, tgui::Gui& gui) :
 	id(id),
 	name(name), 
 	xPos(xPos), yPos(yPos), 
 	cursor_xOffset(0.0f), cursor_yOffset(0.0f),
 	height(BASE_DIMENSION), width(BASE_DIMENSION),
+	interfaceManager(interfaceManager),
 	gui(gui),
 	nameTag(name, resources.regularTextFont, gui),
 	token(xPos, yPos, height / 2.0f),
@@ -46,6 +52,7 @@ BoardElement::BoardElement(unsigned int id, std::string name, float xPos, float 
 	labelYOffset = height / 2.0f;
 	nameTag.centralize(true, false);
 	nameTag.setPosition(this->xPos, this->yPos + labelYOffset);
+	interfaceManager.subscribe(&nameTag);
 }
 
 bool BoardElement::isHovering(float cursor_xPos, float cursor_yPos) {
@@ -79,13 +86,9 @@ void BoardElement::drag(float cursor_xPos, float cursor_yPos) {
 	move(newXPos, newYPos);
 }
 
-void BoardElement::onMousePressed(float cursor_xPos, float cursor_yPos, InterfaceManager& interfaceManager) {
+void BoardElement::onMousePressed(float cursor_xPos, float cursor_yPos) {
 	if (token.isHovering(cursor_xPos, cursor_yPos)) {
 		hold(cursor_xPos, cursor_yPos);
-	}
-	else if (nameTag.clickable.isHovering(cursor_xPos, cursor_yPos)) {
-		nameTag.clickable.onMousePressed();
-		interfaceManager.switchInterface(&nameTag);
 	}
 }
 

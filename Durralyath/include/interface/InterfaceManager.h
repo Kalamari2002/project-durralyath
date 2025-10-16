@@ -8,6 +8,7 @@ private:
 	std::vector<UInterface*> interfaces;
 public:
 	UInterface* activeInterface;
+	UInterface* hoveredInterface;
 public:
 	InterfaceManager();
 	
@@ -19,5 +20,6 @@ public:
 
 	void onKeyPressed(const sf::Keyboard::Scan scancode);
 	void onMousePress(float cursor_xPos, float cursor_yPos);
+	bool isHovering(float cursor_xPos, float cursor_yPos);
 };
 

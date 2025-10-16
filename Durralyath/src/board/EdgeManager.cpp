@@ -1,6 +1,7 @@
 #include "board/EdgeManager.h"
 
-EdgeManager::EdgeManager(Resources& resources, tgui::Gui& gui) :
+EdgeManager::EdgeManager(InterfaceManager& interfaceManager, Resources& resources, tgui::Gui& gui) :
+	interfaceManager(interfaceManager),
 	resources(resources),
 	gui(gui)
 {}
@@ -17,6 +18,7 @@ void EdgeManager::createEdge(BoardElement* vertex1, BoardElement* vertex2) {
 	edges.push_back(newEdge);
 	neighborMap[vertex1->getId()].push_back(newEdge);
 	neighborMap[vertex2->getId()].push_back(newEdge);
+	interfaceManager.subscribe(&newEdge->labelTag);
 }
 
 void EdgeManager::draw(sf::RenderWindow& window) {

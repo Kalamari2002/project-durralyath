@@ -1,4 +1,5 @@
 #include "interface/UInterface.h"
+#include <iostream>
 
 UInterface::UInterface(float xPos, float yPos, bool isVisible) :
 	xPos(xPos), yPos(yPos),
@@ -24,7 +25,7 @@ UInterface::UInterface(float xPos, float yPos, float width, float height, bool i
 
 void UInterface::activate() {
 	isActive = true;
-	//interfaceManager.switchInterface(this);
+	std::cout << "ACTIVATED" << std::endl;
 }
 
 void UInterface::deactivate() {
